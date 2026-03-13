@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="DataLayerGameOfLife/DataLayerGameOfLife.csproj" Id="411c614a-6b01-403a-af38-7dcd8e4e200e" />
+  <Project Path="GameOfLifeA24/GameOfLifeA24.csproj" />
+  <Project Path="GameOfLifeTests/GameOfLifeTests.csproj" Id="c3259525-1a19-4065-962d-6b3f2f66cb09" />
+  <Project Path="GameOfLifeUI/GameOfLifeUI.csproj" />
+</Solution>

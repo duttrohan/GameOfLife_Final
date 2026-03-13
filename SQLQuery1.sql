@@ -1,0 +1,6 @@
+﻿CREATE TABLE SavedPatterns (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    PatternName NVARCHAR(100) NOT NULL,
+    CellX INT NOT NULL,
+    CellY INT NOT NULL
+);
