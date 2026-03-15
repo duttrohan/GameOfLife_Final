@@ -111,9 +111,19 @@ namespace GameOfLifeUI
             }
         }
 
+        // --- MERGED SAVE LOGIC (Uses txtPatternName) ---
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             if (_game == null) return;
+
+            // 1. Get the name from the UI
+            string patternName = txtPatternName.Text;
+
+            if (string.IsNullOrWhiteSpace(patternName))
+            {
+                MessageBox.Show("Please enter a name for your pattern!");
+                return;
+            }
 
             var aliveCells = new List<(int x, int y)>();
             for (int x = 0; x < _game.CurrentGrid.Width; x++)
@@ -130,8 +140,9 @@ namespace GameOfLifeUI
             try
             {
                 GridRepository repo = new GridRepository();
-                repo.SavePattern("MySavedPattern", aliveCells);
-                MessageBox.Show("Pattern successfully saved to SQL Server!");
+                // Pass the custom pattern name to the repo
+                repo.SavePattern(patternName, aliveCells);
+                MessageBox.Show($"Pattern '{patternName}' successfully saved to SQL Server!");
             }
             catch (Exception ex)
             {
@@ -139,27 +150,30 @@ namespace GameOfLifeUI
             }
         }
 
-        // ADDED: This method loads the coordinates from SQL and puts them on the grid
+        // --- MERGED LOAD LOGIC (Uses txtPatternName) ---
         private void btnLoad_Click(object sender, RoutedEventArgs e)
         {
             if (_game == null || _factory == null) return;
 
+            // 1. Get the name from the UI
+            string patternName = txtPatternName.Text;
+
             try
             {
                 GridRepository repo = new GridRepository();
-                var savedCells = repo.LoadPattern("MySavedPattern");
+                // Load only the pattern with this name
+                var savedCells = repo.LoadPattern(patternName);
 
                 if (savedCells.Count == 0)
                 {
-                    MessageBox.Show("No saved pattern found in the database.");
+                    MessageBox.Show($"No saved pattern found with the name '{patternName}'.");
                     return;
                 }
 
-                SetupGame(); // Clear the grid first
+                SetupGame(); // Clear current grid
 
                 foreach (var cell in savedCells)
                 {
-                    // Ensure the coordinates are within bounds
                     if (cell.x < _game.CurrentGrid.Width && cell.y < _game.CurrentGrid.Height)
                     {
                         _game.CurrentGrid.SetCell(cell.x, cell.y, _factory.CreateCell(cell.x, cell.y, true));
@@ -167,7 +181,7 @@ namespace GameOfLifeUI
                 }
 
                 DrawCanvas();
-                MessageBox.Show("Pattern successfully loaded from SQL Server!");
+                MessageBox.Show($"Pattern '{patternName}' successfully loaded!");
             }
             catch (Exception ex)
             {

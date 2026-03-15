@@ -8,19 +8,23 @@
             <Button Name="btnPlay" Content="Auto Play" Click="btnPlay_Click" Width="100" Margin="5"/>
             <Button Name="btnClear" Content="Clear Grid" Click="btnClear_Click" Width="100" Margin="5"/>
 
-            <Button Name="btnSave" Content="Save Pattern" Click="btnSave_Click" Width="100" Margin="5" Background="DarkGreen" Foreground="White"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0">
+                <Label Content="Name:" Foreground="White" VerticalAlignment="Center"/>
+                <TextBox Name="txtPatternName" Width="120" Height="25" Margin="5" VerticalContentAlignment="Center" Text="DefaultPattern"/>
+            </StackPanel>
 
+            <Button Name="btnSave" Content="Save Pattern" Click="btnSave_Click" Width="100" Margin="5" Background="DarkGreen" Foreground="White"/>
             <Button Name="btnLoad" Content="Load Pattern" Click="btnLoad_Click" Width="100" Margin="5" Background="DarkBlue" Foreground="White"/>
 
-            <TextBlock Text="Click on the grid to add cells!" Foreground="White" VerticalAlignment="Center" Margin="20,0,0,0"/>
+            <TextBlock Text="Click grid to add cells!" Foreground="White" VerticalAlignment="Center" Margin="10,0,0,0"/>
         </StackPanel>
 
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <Canvas Name="GameCanvas" 
-             Background="DimGray" 
-             Width="600" 
-             Height="600" 
-             MouseLeftButtonDown="GameCanvas_MouseLeftButtonDown"/>
+                    Background="DimGray" 
+                    Width="600" 
+                    Height="600" 
+                    MouseLeftButtonDown="GameCanvas_MouseLeftButtonDown"/>
         </ScrollViewer>
     </DockPanel>
 </Window>

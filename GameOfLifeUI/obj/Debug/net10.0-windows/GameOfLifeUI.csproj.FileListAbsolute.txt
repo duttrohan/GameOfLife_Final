@@ -63,3 +63,4 @@ C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeUI\bin\Debug\net10.0-win
 C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeUI\bin\Debug\net10.0-windows\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeUI\bin\Debug\net10.0-windows\DataLayerGameOfLife.dll
 C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeUI\bin\Debug\net10.0-windows\DataLayerGameOfLife.pdb
+C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeUI\obj\Debug\net10.0-windows\GameOfLifeUI.sourcelink.json
