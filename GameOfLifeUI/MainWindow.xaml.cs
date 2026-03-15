@@ -7,7 +7,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using GameOfLifeA24;
-using DataLayerGameOfLife;
+using DataLayerGameOfLife; // This namespace contains your Factory and Interface
 
 namespace GameOfLifeUI
 {
@@ -17,6 +17,10 @@ namespace GameOfLifeUI
         private ICellFactory? _factory;
         private DispatcherTimer? _timer;
         private const int CellSize = 20;
+
+        // 1. Requirement: Use the Interface instead of the concrete class
+        // 2. Requirement: Use the Singleton Factory to get the instance
+        private IInitialStateRepository _repository = RepositoryFactory.Instance.GetInitialStateRepository();
 
         public MainWindow()
         {
@@ -111,12 +115,10 @@ namespace GameOfLifeUI
             }
         }
 
-        // --- MERGED SAVE LOGIC (Uses txtPatternName) ---
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             if (_game == null) return;
 
-            // 1. Get the name from the UI
             string patternName = txtPatternName.Text;
 
             if (string.IsNullOrWhiteSpace(patternName))
@@ -139,9 +141,8 @@ namespace GameOfLifeUI
 
             try
             {
-                GridRepository repo = new GridRepository();
-                // Pass the custom pattern name to the repo
-                repo.SavePattern(patternName, aliveCells);
+                // Use the interface method 'Add' instead of 'SavePattern'
+                _repository.Add(patternName, aliveCells);
                 MessageBox.Show($"Pattern '{patternName}' successfully saved to SQL Server!");
             }
             catch (Exception ex)
@@ -150,21 +151,18 @@ namespace GameOfLifeUI
             }
         }
 
-        // --- MERGED LOAD LOGIC (Uses txtPatternName) ---
         private void btnLoad_Click(object sender, RoutedEventArgs e)
         {
             if (_game == null || _factory == null) return;
 
-            // 1. Get the name from the UI
             string patternName = txtPatternName.Text;
 
             try
             {
-                GridRepository repo = new GridRepository();
-                // Load only the pattern with this name
-                var savedCells = repo.LoadPattern(patternName);
+                // Use the interface method 'Get' instead of 'LoadPattern'
+                var savedCells = _repository.Get(patternName);
 
-                if (savedCells.Count == 0)
+                if (savedCells == null || savedCells.Count == 0)
                 {
                     MessageBox.Show($"No saved pattern found with the name '{patternName}'.");
                     return;

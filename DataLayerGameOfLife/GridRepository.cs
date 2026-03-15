@@ -4,30 +4,28 @@ using Microsoft.Data.SqlClient;
 
 namespace DataLayerGameOfLife
 {
-    public class GridRepository
+    public class GridRepository : IInitialStateRepository
     {
         private string _connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=GameOfLifeDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False;";
 
-        public void SavePattern(string name, List<(int x, int y)> aliveCells)
+        public void Add(string name, List<(int x, int y)> aliveCells)
         {
             try
             {
                 using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
                     conn.Open();
-
-                    // 1. Clear old version (Updated Table Name: Cells)
-                    string deleteSql = "DELETE FROM Cells WHERE PatternName = @name";
+                    // Using 'InitialStates' table name from Page 4 of the Exam PDF
+                    string deleteSql = "DELETE FROM InitialStates WHERE Name = @name";
                     using (SqlCommand delCmd = new SqlCommand(deleteSql, conn))
                     {
                         delCmd.Parameters.AddWithValue("@name", name);
                         delCmd.ExecuteNonQuery();
                     }
 
-                    // 2. Save new coordinates (Updated Table: Cells, Columns: X, Y)
                     foreach (var cell in aliveCells)
                     {
-                        string sql = "INSERT INTO Cells (PatternName, X, Y) VALUES (@name, @x, @y)";
+                        string sql = "INSERT INTO InitialStates (Name, X, Y) VALUES (@name, @x, @y)";
                         using (SqlCommand cmd = new SqlCommand(sql, conn))
                         {
                             cmd.Parameters.AddWithValue("@name", name);
@@ -40,32 +38,26 @@ namespace DataLayerGameOfLife
             }
             catch (Exception ex)
             {
-                // This prevents the app from crashing if the DB is down
                 throw new Exception("Error saving to database: " + ex.Message);
             }
         }
 
-        public List<(int x, int y)> LoadPattern(string name)
+        public List<(int x, int y)> Get(string name)
         {
             var cells = new List<(int x, int y)>();
-
             try
             {
                 using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
                     conn.Open();
-                    // Updated Table: Cells, Columns: X, Y
-                    string sql = "SELECT X, Y FROM Cells WHERE PatternName = @name";
-
+                    string sql = "SELECT X, Y FROM InitialStates WHERE Name = @name";
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         cmd.Parameters.AddWithValue("@name", name);
-
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
                             {
-                                // 0 is X, 1 is Y
                                 cells.Add((reader.GetInt32(0), reader.GetInt32(1)));
                             }
                         }
@@ -76,8 +68,10 @@ namespace DataLayerGameOfLife
             {
                 throw new Exception("Error loading from database: " + ex.Message);
             }
-
             return cells;
         }
+
+        public void Delete(string name) { /* Logic to delete by name */ }
+        public void Update(string name, List<(int x, int y)> cells) { /* Logic to update */ }
     }
 }
