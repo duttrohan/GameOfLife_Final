@@ -1,4 +1,6 @@
-﻿namespace GameOfLifeA24
+﻿using GameOfLifeA24.Cells;
+
+namespace GameOfLifeA24
 {
     public class CellFactory : ICellFactory
     {

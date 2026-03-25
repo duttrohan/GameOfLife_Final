@@ -1,7 +1,9 @@
-﻿namespace GameOfLifeA24
+﻿using GameOfLifeA24.Cells;
+
+namespace GameOfLifeA24
 {
     public interface ICellFactory
     {
         Cell CreateCell(int x, int y, bool isAlive);
     }
-} // Make sure this last bracket is here!
+}

@@ -2,10 +2,10 @@
 {
     public class RepositoryFactory
     {
-        // 1. The private static field that holds the single instance
-        private static RepositoryFactory _instance;
+        // 1. Nullable because lazy initialization starts with null
+        private static RepositoryFactory? _instance;
 
-        // 2. The public property used to access the factory (Singleton)
+        // 2. Singleton accessor
         public static RepositoryFactory Instance
         {
             get
@@ -18,11 +18,10 @@
             }
         }
 
-        // 3. A private constructor so no one else can use 'new RepositoryFactory()'
+        // 3. Private constructor
         private RepositoryFactory() { }
 
-        // 4. The method that creates and returns your repository
-        // It returns the Interface (IInitialStateRepository) to satisfy UML requirements
+        // 4. Factory method
         public IInitialStateRepository GetInitialStateRepository()
         {
             return new GridRepository();

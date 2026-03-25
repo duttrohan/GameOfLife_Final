@@ -5,6 +5,7 @@ C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeA24\obj\Debug\net10.0\Ga
 C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeA24\obj\Debug\net10.0\GameOfLifeA24.AssemblyInfoInputs.cache
 C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeA24\obj\Debug\net10.0\GameOfLifeA24.AssemblyInfo.cs
 C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeA24\obj\Debug\net10.0\GameOfLifeA24.csproj.CoreCompileInputs.cache
+C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeA24\obj\Debug\net10.0\GameOfLifeA24.sourcelink.json
 C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeA24\obj\Debug\net10.0\GameOfLifeA24.dll
 C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeA24\obj\Debug\net10.0\refint\GameOfLifeA24.dll
 C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeA24\obj\Debug\net10.0\GameOfLifeA24.pdb

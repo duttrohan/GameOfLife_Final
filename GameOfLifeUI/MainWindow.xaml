@@ -1,30 +1,219 @@
 ﻿<Window x:Class="GameOfLifeUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
         Title="Game of Life" Height="650" Width="850">
+
+    <!-- ⭐ Modern UI Styles -->
+    <Window.Resources>
+
+        <!-- Base Modern Button -->
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#444"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+
+                            <!-- Hover -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#555"/>
+                                <Setter TargetName="border" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="Black"
+                                                          BlurRadius="10"
+                                                          ShadowDepth="0"
+                                                          Opacity="0.4"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+
+                            <!-- Pressed -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#666"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Color Variants -->
+        <Style x:Key="OrangeButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#FF8C00"/>
+        </Style>
+
+        <Style x:Key="GreenButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#228B22"/>
+        </Style>
+
+        <Style x:Key="BlueButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#1E90FF"/>
+        </Style>
+
+    </Window.Resources>
+
     <DockPanel>
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Background="#333">
-            <Button Name="btnStep" Content="Next Generation" Click="btnStep_Click" Width="120" Margin="5"/>
-            <Button Name="btnPlay" Content="Auto Play" Click="btnPlay_Click" Width="100" Margin="5"/>
-            <Button Name="btnClear" Content="Clear Grid" Click="btnClear_Click" Width="100" Margin="5"/>
 
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0">
-                <Label Content="Name:" Foreground="White" VerticalAlignment="Center"/>
-                <TextBox Name="txtPatternName" Width="120" Height="25" Margin="5" VerticalContentAlignment="Center" Text="DefaultPattern"/>
+        <!-- ⭐ Modern Header -->
+        <Border DockPanel.Dock="Top"
+                Background="#2D2D30"
+                Padding="10"
+                BorderBrush="#1E1E1E"
+                BorderThickness="0,0,0,2">
+
+            <StackPanel Orientation="Vertical">
+
+                <!-- TOP ROW -->
+                <WrapPanel Orientation="Horizontal" Margin="0,0,0,5">
+
+                    <Button Name="btnStep"
+                            Content="Next Generation"
+                            Width="130"
+                            Click="btnStep_Click"/>
+
+                    <Button Name="btnPlay"
+                            Content="Auto Play"
+                            Width="100"
+                            Click="btnPlay_Click"/>
+
+                    <Button Name="btnClear"
+                            Content="Clear Grid"
+                            Width="100"
+                            Click="btnClear_Click"/>
+
+                    <Button Name="btnRandom"
+                            Content="Randomize"
+                            Width="110"
+                            Style="{StaticResource OrangeButton}"
+                            Click="btnRandom_Click"/>
+
+                    <ComboBox x:Name="cmbSpeed"
+                              Width="140"
+                              Margin="10,0"
+                              SelectionChanged="cmbSpeed_SelectionChanged">
+                        <ComboBoxItem Content="Slow (500 ms)" />
+                        <ComboBoxItem Content="Medium (200 ms)" IsSelected="True"/>
+                        <ComboBoxItem Content="Fast (50 ms)" />
+                    </ComboBox>
+
+                </WrapPanel>
+
+                <!-- SECOND ROW -->
+                <WrapPanel Orientation="Horizontal">
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5">
+                        <Label Content="Name:" Foreground="White" VerticalAlignment="Center"/>
+                        <TextBox x:Name="txtPatternName"
+                                 Width="140"
+                                 Height="25"
+                                 Margin="5"
+                                 VerticalContentAlignment="Center"
+                                 Text="DefaultPattern"/>
+                    </StackPanel>
+
+                    <Button Name="btnSave"
+                            Content="Save Pattern"
+                            Width="120"
+                            Style="{StaticResource GreenButton}"
+                            Click="btnSave_Click"/>
+
+                    <Button Name="btnLoad"
+                            Content="Load Pattern"
+                            Width="120"
+                            Style="{StaticResource BlueButton}"
+                            Click="btnLoad_Click"/>
+
+                    <ComboBox x:Name="cmbRules"
+                              Width="160"
+                              Margin="10,0"
+                              SelectionChanged="cmbRules_SelectionChanged">
+                        <ComboBoxItem Content="Standard Rule" IsSelected="True"/>
+                        <ComboBoxItem Content="HighLife Rule"/>
+                    </ComboBox>
+
+                    <ComboBox x:Name="cmbPatterns"
+                              Width="160"
+                              Margin="10,0"
+                              SelectionChanged="cmbPatterns_SelectionChanged">
+                        <ComboBoxItem Content="Select Pattern" IsSelected="True"/>
+                        <ComboBoxItem Content="Glider"/>
+                        <ComboBoxItem Content="Blinker"/>
+                        <ComboBoxItem Content="Toad"/>
+                        <ComboBoxItem Content="Beacon"/>
+                        <ComboBoxItem Content="LWSS"/>
+                    </ComboBox>
+
+                    <!-- ⭐ ADDED STATISTICS PANEL -->
+                    <StackPanel Orientation="Horizontal" Margin="15,0,0,0">
+
+                        <TextBlock Text="Alive:" 
+                                   Foreground="White" 
+                                   VerticalAlignment="Center"/>
+
+                        <TextBlock x:Name="aliveCount"
+                                   Text="0"
+                                   Foreground="Lime"
+                                   FontWeight="Bold"
+                                   Margin="5,0,15,0"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBlock Text="Generation:" 
+                                   Foreground="White" 
+                                   VerticalAlignment="Center"/>
+
+                        <TextBlock x:Name="genCount"
+                                   Text="0"
+                                   Foreground="Aqua"
+                                   FontWeight="Bold"
+                                   Margin="5,0,15,0"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBlock Text="Speed:" 
+                                   Foreground="White" 
+                                   VerticalAlignment="Center"/>
+
+                        <TextBlock x:Name="speedStat"
+                                   Text="200 ms"
+                                   Foreground="Orange"
+                                   FontWeight="Bold"
+                                   Margin="5,0,0,0"
+                                   VerticalAlignment="Center"/>
+
+                    </StackPanel>
+
+                </WrapPanel>
+
             </StackPanel>
+        </Border>
 
-            <Button Name="btnSave" Content="Save Pattern" Click="btnSave_Click" Width="100" Margin="5" Background="DarkGreen" Foreground="White"/>
-            <Button Name="btnLoad" Content="Load Pattern" Click="btnLoad_Click" Width="100" Margin="5" Background="DarkBlue" Foreground="White"/>
-
-            <TextBlock Text="Click grid to add cells!" Foreground="White" VerticalAlignment="Center" Margin="10,0,0,0"/>
-        </StackPanel>
-
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <Canvas Name="GameCanvas" 
-                    Background="DimGray" 
-                    Width="600" 
-                    Height="600" 
+        <!-- ⭐ GAME CANVAS AREA -->
+        <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Auto">
+            <Canvas Name="GameCanvas"
+                    Background="DimGray"
+                    Width="600"
+                    Height="600"
                     MouseLeftButtonDown="GameCanvas_MouseLeftButtonDown"/>
         </ScrollViewer>
+
     </DockPanel>
+
 </Window>

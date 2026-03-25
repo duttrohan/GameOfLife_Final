@@ -92,6 +92,7 @@ C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeTests\obj\Debug\net10.0\
 C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeTests\obj\Debug\net10.0\GameOfLifeTests.AssemblyInfoInputs.cache
 C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeTests\obj\Debug\net10.0\GameOfLifeTests.AssemblyInfo.cs
 C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeTests\obj\Debug\net10.0\GameOfLifeTests.csproj.CoreCompileInputs.cache
+C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeTests\obj\Debug\net10.0\GameOfLifeTests.sourcelink.json
 C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeTests\obj\Debug\net10.0\GameOfLi.B09A677C.Up2Date
 C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeTests\obj\Debug\net10.0\GameOfLifeTests.dll
 C:\Users\duttr\source\repos\SE2_Dantani_Rohan\GameOfLifeTests\obj\Debug\net10.0\refint\GameOfLifeTests.dll

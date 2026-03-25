@@ -1,27 +1,29 @@
-﻿namespace GameOfLifeA24
+﻿using GameOfLifeA24.Cells;
+
+namespace GameOfLifeA24
 {
     public class Grid
     {
         private Cell[,] _cells;
         private ICellFactory _cellFactory;
-        private IRule _rule; // UML shows Grid knows its Rule
+        private IRule _rule;
 
         public int Width { get; }
         public int Height { get; }
 
-        // Updated constructor to take 4 arguments
+        // Constructor with rule + factory
         public Grid(int width, int height, IRule rule, ICellFactory factory)
         {
             Width = width;
             Height = height;
             _rule = rule;
             _cellFactory = factory;
-            _cells = new Cell[width, height];
 
+            _cells = new Cell[width, height];
             InitializeDefaultGrid();
         }
 
-        // REQUIRED: This allows HighLifeRule and StandardRule to use the factory
+        // Allows rules to access the factory
         public ICellFactory GetFactory()
         {
             return _cellFactory;
